@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+    volumes:
+      - db_data:/var/lib/mysql
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:
+      - db
+  git-sync:
+    image: alpine/git
+    volumes:
+      - wp_data:/wp
+    entrypoint: >
+      sh -c "
+        sleep 20 &&
+        git clone https://github.com/255adrii/ProyectoAmpSis.git /tmp/repo &&
+        cp -r /tmp/repo/wp-content/* /wp/wp-content/ &&
+        echo 'Archivos copiados!'
+      "
+    depends_on:
+      - wordpress
+volumes:
+  db_data:
+  wp_data:
