@@ -1,10 +1,21 @@
 Vagrant.configure("2") do |config|
+
   config.vm.box = "ubuntu/jammy64"
-  config.vm.network "forwarded_port", guest: 8080, host: 8080
+
+  config.vm.hostname = "webfusion"
+
+  config.vm.network "forwarded_port",
+    guest: 8080,
+    host: 8080
+
   config.vm.provider "virtualbox" do |vb|
-    vb.name   = "webfusion-vm"
+    vb.name = "webfusion-vm"
     vb.memory = "2048"
-    vb.cpus   = 2
+    vb.cpus = 2
   end
+
+  config.vm.synced_folder ".", "/vagrant"
+
   config.vm.provision "shell", path: "provision.sh"
+
 end
