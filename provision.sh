@@ -1,15 +1,23 @@
 #!/bin/bash
-# Actualiza los paquetes de ubuntu para tener todo al dia
+
+echo "Actualizando paquetes..."
 apt-get update -y
-# Instalamos docker, docker-compose y git
+
+echo "Instalando Docker, Docker Compose y Git..."
 apt-get install -y docker.io docker-compose git
-# Inicio el servicio de docker y lo pongo para que arranque solo al iniciar la maquina virtual
+
+echo "Iniciando servicio Docker..."
 systemctl enable docker
 systemctl start docker
-# Me meto en la carpeta compartida que es donde tengo el docker-compose.yml
+
+echo "Accediendo a la carpeta compartida..."
 cd /vagrant
-# Por si ya habia contenedores corriendo los paro
+
+echo "Deteniendo contenedores anteriores..."
 docker-compose down
-# Arranco los contenedores en segundo plano
+
+echo "Levantando contenedores..."
 docker-compose up -d
-echo "Listo, entra en http://localhost:8080"
+
+echo "Entorno desplegado correctamente."
+echo "Accede a WordPress desde: http://localhost:8080"
