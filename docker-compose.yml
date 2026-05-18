@@ -51,7 +51,7 @@ services:
         sleep 20 &&
         rm -rf /tmp/repo &&
         git clone https://github.com/255adrii/ProyectoAmpSis.git /tmp/repo &&
-        cp -r /tmp/repo/wp-content/* /wp/wp-content/ &&
+        cp -r /tmp/repo/web/* /wp/wp-content/ &&
         echo 'Archivos copiados correctamente!'
       "
 
